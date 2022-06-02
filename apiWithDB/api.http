@@ -1,0 +1,43 @@
+POST http://localhost:3000/tasks/cadastrar
+Content-Type: application/json 
+
+{
+    "description": "trabalho de aman*-*45--hã",
+    "completed": true,
+    "dateCreation": "-----2022"
+}
+
+###
+GET http://localhost:3000/tasks/listar
+Content-Type: application/json 
+
+{}
+
+###
+GET http://localhost:3000/tasks/19
+Content-Type: application/json 
+
+{}
+
+###
+GET http://localhost:3000/tasks/contar
+Content-Type: application/json 
+
+{}
+
+###
+PUT http://localhost:3000/tasks/editar/8
+Content-Type: application/json 
+
+{
+    "description": "Leddddddddddddddddddddd ",
+    "completed": false,
+    "dateCreation": "01-10-2022"
+}
+
+
+###
+DELETE  http://localhost:3000/tasks/remover/17
+Content-Type: application/json 
+
+{}

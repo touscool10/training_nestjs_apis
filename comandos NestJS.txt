@@ -1,0 +1,153 @@
+SERVICE :
+====================
+
+
+getAll() {
+    return this.tasks;
+  }
+  getById(id: number) {
+    const task = this.tasks.find((e) => e.id == id);
+    return task;
+  }
+  create(task: Task) {
+    let lastId = 0 ;
+    if (this.tasks.length > 0) {
+      lastId = this.tasks[this.tasks.length - 1].id ;
+    }
+    task.id = lastId + 1;
+    this.tasks.push(task);
+    return task;
+  }
+  update(task: Task) {
+    const taskArray = this.getById(task.id);
+    if (taskArray) {
+      taskArray.description = task.description;
+      taskArray.completed = task.completed;
+    }
+    return taskArray;
+  }
+  delete(id: number) {   
+    /*const task = this.getById(id);
+    if (task) {
+      let index = this.tasks.indexOf(task);
+      this.tasks.splice(index,1);
+    }*/
+    const index = this.tasks.findIndex((e) => e.id == id)
+    if (index == -1) {
+      
+    } else {
+      this.tasks.splice(index, 1);
+    }
+    this.getAll();
+    }
+
+
+========================
+
+
+CONTROLLER :
+-------------
+
+@Get()
+  async getAll(): Promise<Task[]> {
+    return this.taskService.getAll();
+  }
+  @Get(':id')
+  async getById(@Param('id') id: number): Promise<Task> {
+    return this.taskService.getById(id);
+  }
+  @Post()
+  async create(@Body() task: Task): Promise<Task>  {
+    return this.taskService.create(task);
+  }
+  @Put(':id')
+  async update(@Param('id') id: number, @Body() task: Task) : Promise<Task>  {
+    task.id = id;
+    return this.taskService.update(task);
+  }
+  @Delete(':id')
+  async delete(@Param('id') id: number) {
+    return this.taskService.delete(id);
+  }
+
+==================
+
+gestão de compras e vendas  ---- >  tabelas
+
+
+usuario
+estoque/produtos (nf reg. valor qtde )
+pagamentos
+
+===============
+Criar uma tabela associativa entre
+
+venda - produto - quantidade - preco_total_produtos  ;
+
+====================================================================
+
+CREATE TABLE clientes(
+	id_cliente INT NOT NULL AUTO_INCREMENT,
+	nome_cliente VARCHAR(100) NOT NULL,
+	endereco_cliente VARCHAR(100) NOT NULL,
+	cidade_cliente VARCHAR(100) NOT NULL,
+	estado_cliente VARCHAR(45) NOT NULL,
+	cep_cliente VARCHAR(45) NOT NULL,
+	telefone_cliente VARCHAR(45) NOT NULL,
+	email_cliente VARCHAR(45) NOT NULL,
+	cpf VARCHAR(14) NOT NULL UNIQUE,
+	PRIMARY KEY(id_cliente)
+
+)
+ENGINE = InnoDB;
+
+CREATE TABLE vendas(
+	id_venda INT NOT NULL AUTO_INCREMENT,
+	quantidade INT NOT NULL,
+	data_venda DATE NOT NULL,
+	nota_fiscal_venda VARCHAR(45) NOT NULL,
+    /*Esqueci de colocar id_produto aqui, mas adicionei manualmente depois*/
+	id_cliente INT NOT NULL,
+	PRIMARY KEY(id_venda),
+	CONSTRAINT fk_vendas_clientes
+		FOREIGN KEY (id_cliente)
+		REFERENCES clientes (id_cliente)
+)
+ENGINE = InnoDB;
+
+CREATE TABLE produtos(
+	id_produto INT NOT NULL AUTO_INCREMENT,
+	estoque INT NOT NULL,
+	precounitario FLOAT NOT NULL,
+	estoque_minimo INT NOT NULL,
+	id_venda INT NOT NULL,
+	PRIMARY KEY(id_produto),
+	CONSTRAINT fk_produtos_vendas
+		FOREIGN KEY (id_venda)
+		REFERENCES vendas (id_venda)
+
+)
+ENGINE = InnoDB;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+gestao_de_compra

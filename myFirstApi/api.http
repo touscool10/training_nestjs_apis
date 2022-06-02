@@ -1,0 +1,35 @@
+POST http://localhost:3000/tasks
+Content-Type: application/json 
+
+{
+    "description": "Travail #3.ççç",
+    "completed": true
+}
+
+###
+GET http://localhost:3000/tasks
+Content-Type: application/json 
+
+{}
+
+###
+GET http://localhost:3000/tasks/11
+Content-Type: application/json 
+
+{}
+
+###
+PUT http://localhost:3000/tasks/11
+Content-Type: application/json 
+
+{
+    "description": "Travail número 0000,00001",
+    "completed": false
+}
+
+
+###
+DELETE  http://localhost:3000/tasks/11
+Content-Type: application/json 
+
+{}
